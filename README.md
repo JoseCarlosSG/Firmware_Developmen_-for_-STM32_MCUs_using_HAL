@@ -71,7 +71,3 @@ This file describes the required source files, directory structure, URLs to obta
 
 - **SysTick Time Base:**  
   It is recommended that the SysTick time base is always set to 1 millisecond to ensure correct HAL operation.
-
----
-
-This version is now in English and properly formatted for use in a `README.md` file on GitHub. Let me know if you'd like any further adjustments!
