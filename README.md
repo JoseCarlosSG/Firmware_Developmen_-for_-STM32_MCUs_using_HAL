@@ -29,14 +29,14 @@ This file describes the required source files, directory structure, URLs to obta
 
 | File                                | Description                                      | Setup                                                                 |
 |-------------------------------------|--------------------------------------------------|-----------------------------------------------------------------------|
-| `Device/Inc/stm32f4xx.h`            | STM32F4xx MCU definitions.                      | Uncomment target MCU definition.                                     |
+| `Device/Inc/stm32f4xx.h`            | STM32F4xx MCU definitions.                      | Uncomment target MCU definition.                                      |
 | `Device/Inc/stm32f411xe.h`          | STM32F411 register definitions.                 | None.                                                                 |
 | `Device/Src/system_stm32f4xx.c`     | STM32F4xx system clock configuration file.      | None.                                                                 |
 | `Device/Src/system_stm32f4xx.h`     | System clock header file.                       | Verify that `AHBPrescTable` and `APBPrescTable` are defined as `extern`. Ensure `stm32f3xx_hal_rcc.c` includes `system_stm32f3xx.h`. |
 | `Device/Src/startup_stm32f411xe.s`  | STM32F411 startup file.                         | None.                                                                 |
 | `Device/Src/stm32f4xx_it.c`         | Interrupt handlers.                             | Verify that system interrupts are implemented.                        |
 | `Device/Inc/stm32f4xx_it.h`         | Interrupt handler header file.                  | Verify that system interrupts are defined.                            |
-| `Device/Inc/STM32F411RETx_FLASH.ld` | Linker script.                                  | None.                                                                 |
+| `Device/Inc/STM32F411RETx_FLASH.ld` | Linker script.                                  | Some linker parts are compatible to some compiler versions            |
 
 - **Sources:**
   - [CMSIS Device Include Files](https://github.com/STMicroelectronics/cmsis-device-f4/tree/cdbad761857acedcdd07ece7939b4cb209ed826a/Include)
@@ -53,9 +53,17 @@ This file describes the required source files, directory structure, URLs to obta
   - `HAL/Src/`: HAL source files.
 
 - **Setup:**
-  - `HAL/Src/stm32f4xx_hal_msp.c`: HAL MSP module.
+  - `HAL/Src/stm32f4xx_hal_msp.c`:
+      - Implement setup system clock (`SystemClock_Config`)
+      - Implement required peripherals setup methods (`Peripheral_Config`).
+      - Call `SysteClock_Config`, `Peripheral_Config` and set tick interrupt priority (`HAL_InitTick(TICK_INT_PRIORITY)`) in `HAL_MspInit method`. 
   - `HAL/Inc/stm32f4xx_hal_msp.h`: HAL MSP header.
-  - `HAL/Inc/stm32f4xx_hal_conf.h`: HAL configuration file.
+  - `HAL/Inc/stm32f4xx_hal_conf.h`: Comment all unused pheripherals, he following ones have to be defined:
+      - `#define HAL_MODULE_ENABLED`: Enable HAL library.
+      - `#define HAL_FLASH_MODULE_ENABLED`: Necessary to access to the FLASH memory on initial setup.
+      - `#define HAL_GPIO_MODULE_ENABLED`: Enable GPIO peripheral. 
+      - `#define HAL_RCC_MODULE_ENABLED`: It is necessary to enable and setup the clock.
+      - `#define HAL_CORTEX_MODULE_ENABLED`: Enable core interrupts and NVIC control.
 
 - **Sources:**
   - [HAL Driver Include Files](https://github.com/STMicroelectronics/stm32f4xx-hal-driver/tree/8f20a7dfd0b5902e1a5796be78ed2ceddd342085/Inc)
