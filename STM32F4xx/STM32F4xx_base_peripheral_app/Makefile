@@ -12,14 +12,14 @@ LINKER_FILE=$(MCAL_DIR)/Device/STM32F411RETX_FLASH.ld
 
 # Compilador y opciones
 CC=arm-none-eabi-gcc
-CFLAGS=-mcpu=cortex-m4 -mthumb -nostdlib -O0
+CFLAGS=-mcpu=cortex-m4 -mthumb -O0
 CPPFLAGS=-DSTM32F411xE \
 	 -DUSE_HAL_DRIVER \
 	 -I$(APP_DIR) \
 	 -I$(MCAL_DIR)/CMSIS/Core/Include \
 	 -I$(MCAL_DIR)/Device/Inc \
 	 -I$(MCAL_DIR)/HAL/Inc 
-LDFLAGS=-T $(LINKER_FILE)
+LDFLAGS=-T $(LINKER_FILE) -specs=nosys.specs
 
 # Objetivo principal
 all: $(BUILD_DIR)/$(TARGET_NAME).elf $(BUILD_DIR)/$(TARGET_NAME).bin
