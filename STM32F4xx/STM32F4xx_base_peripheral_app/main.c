@@ -3,13 +3,14 @@
 #include "stm32f4xx_hal_msp.h"
 #include <string.h>
 
-void _init(void) {}
-
 int main(void) {
 
   HAL_Init();
-  /* Modify stm32f4xx_hal_msp.h and stm32f4xx_hal_msp.c in order to setup a peripheral*/
-  HAL_MspInit();
+  /* Setup the system clock to 100 MHz */
+  SystemClock_Config();
+  /* Set tick interrupt priority*/
+  HAL_InitTick(TICK_INT_PRIORITY);
+  /* Setup drivers here */
   
   while (1){
   /* Implementation here */

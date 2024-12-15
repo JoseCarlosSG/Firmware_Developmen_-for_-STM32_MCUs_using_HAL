@@ -28,9 +28,11 @@ $(BUILD_DIR)/$(TARGET_NAME).bin: $(BUILD_DIR)/$(TARGET_NAME).elf
 	arm-none-eabi-objcopy -O binary $(BUILD_DIR)/$(TARGET_NAME).elf $(BUILD_DIR)/$(TARGET_NAME).bin
 
 # Objetivo .elf
-$(BUILD_DIR)/$(TARGET_NAME).elf: $(BUILD_DIR)/main.o $(BUILD_DIR)/startup_stm32f411xe.o $(BUILD_DIR)/system_stm32f4xx.o \
-	$(BUILD_DIR)/stm32f4xx_hal.o $(BUILD_DIR)/stm32f4xx_hal_gpio.o $(BUILD_DIR)/stm32f4xx_hal_rcc.o \
-	$(BUILD_DIR)/stm32f4xx_hal_cortex.o $(BUILD_DIR)/stm32f4xx_it.o $(BUILD_DIR)/stm32f4xx_hal_msp.o
+$(BUILD_DIR)/$(TARGET_NAME).elf: $(BUILD_DIR)/main.o $(BUILD_DIR)/stm32f4xx_hal_msp.o \
+	$(BUILD_DIR)/startup_stm32f411xe.o $(BUILD_DIR)/system_stm32f4xx.o \
+	$(BUILD_DIR)/stm32f4xx_it.o $(BUILD_DIR)/stm32f4xx_hal.o \
+	$(BUILD_DIR)/stm32f4xx_hal_rcc.o $(BUILD_DIR)/stm32f4xx_hal_cortex.o \
+	$(BUILD_DIR)/stm32f4xx_hal_gpio.o
 	$(CC) $(CFLAGS) $(CPPFLAGS) $(LDFLAGS) $^ -o $@
 
 # Compilación de archivos propios de la aplicación

@@ -50,13 +50,6 @@
   */
 void HAL_MspInit(void)
 {
-    /* Setup the system clock to 100 MHz */
-    SystemClock_Config();
-    /* Set tick interrupt priority*/
-    HAL_InitTick(TICK_INT_PRIORITY);
-    /* Setup led pin */
-    GPIO_Config();
-
 }
 
 /**
